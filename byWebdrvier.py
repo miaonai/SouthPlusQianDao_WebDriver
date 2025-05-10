@@ -109,7 +109,7 @@ def Lingqu():
 
 
 
-url = 'https://www.south-plus.net/plugin.php?H_name-tasks.html.html'
+url = 'https://south-plus.net/plugin.php?H_name-tasks.html'
 web.get(url)
 
 time.sleep(1)
