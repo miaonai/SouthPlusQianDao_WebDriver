@@ -127,8 +127,23 @@ for cookie in cookie_data:
 # 重新加载页面
 web.get(url)
 time.sleep(3)
-# 领取周常
+
 soup = BeautifulSoup(web.page_source, 'html.parser')
+user_login = soup.find('div', id='user-login')
+
+if user_login:
+    username_tag = user_login.find('a')  # 第一個 <a> 就是使用者 ID
+    if username_tag:
+        username = username_tag.text.strip()
+        print("✅ 登入成功，使用者 ID：", username)
+    else:
+        print("❌ 找不到使用者名稱")
+else:
+    print("❌ 尚未登入（找不到 user-login 區塊）")
+
+
+# 领取周常
+#soup = BeautifulSoup(web.page_source, 'html.parser')
 weekly_task_1 = soup.find('span', id='p_15')
 weekly_task_2 = soup.find('span', id='p_14')
 print(weekly_task_1,weekly_task_2)
