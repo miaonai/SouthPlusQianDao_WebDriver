@@ -129,6 +129,7 @@ web.get(url)
 time.sleep(3)
 
 soup = BeautifulSoup(web.page_source, 'html.parser')
+print(soup)
 user_login = soup.find('div', id='user-login')
 
 if user_login:
