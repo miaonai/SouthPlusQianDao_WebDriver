@@ -8,7 +8,7 @@ on:
 jobs:
   run-script:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -17,31 +17,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-    
+
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Install a specific version of Google Chrome
+    - name: Install Chrome
       run: |
-        # 添加 Google Chrome 的官方 GPG 密鑰
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        # 添加 Google Chrome 的官方軟體源
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        # 更新套件列表
-        sudo apt-get update
-        # 查看可用的 Chrome 版本 (此行為可選，主要用於調試)
-        apt-cache policy google-chrome
-        # 設定要安裝的 Chrome 版本
-        CHROME_VERSION="136" # <--- 在這裡指定您想要的版本號
-        # 安裝指定版本的 Chrome
-        sudo apt-get install -y google-chrome=${CHROME_VERSION}
-
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f
+        sudo apt-get install -y google-chrome-stable
+    
     - name: Setup ChromeDriver
       uses: nanasess/setup-chromedriver@v2
-      # ChromeDriver 的版本最好與您指定的 Chrome 版本匹配
-      # 您可以在 https://googlechromelabs.github.io/chrome-for-testing/ 查詢對應版本
-      with:
-        chromedriver-version: '136.0.7103.92-1' # <--- 建議與上方 Chrome 主版本號一致
+
 
     - name: 总脚本
       env:
