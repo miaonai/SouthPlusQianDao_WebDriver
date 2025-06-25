@@ -30,7 +30,6 @@ jobs:
     - name: Setup ChromeDriver
       uses: nanasess/setup-chromedriver@v2
 
-
     - name: 总脚本
       env:
         COOKIE: ${{ secrets.COOKIE }}
