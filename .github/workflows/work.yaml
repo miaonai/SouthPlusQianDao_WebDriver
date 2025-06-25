@@ -32,7 +32,7 @@ jobs:
         # 查看可用的 Chrome 版本 (此行為可選，主要用於調試)
         apt-cache policy google-chrome-stable
         # 設定要安裝的 Chrome 版本
-        CHROME_VERSION="136.0.7103.92-1" # <--- 在這裡指定您想要的版本號
+        CHROME_VERSION="136" # <--- 在這裡指定您想要的版本號
         # 安裝指定版本的 Chrome
         sudo apt-get install -y google-chrome-stable=${CHROME_VERSION}
 
