@@ -1,4 +1,4 @@
-name: SouthPlus签到
+name: 签到
 
 on:
   schedule:
@@ -33,5 +33,4 @@ jobs:
     - name: 总脚本
       env:
         COOKIE: ${{ secrets.COOKIE }}
-        serverKey: ${{ secrets.serverKey }}
       run: python byWebdrvier.py
