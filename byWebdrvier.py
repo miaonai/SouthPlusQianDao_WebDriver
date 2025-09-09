@@ -1,8 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import json
 from bs4 import BeautifulSoup
@@ -10,15 +8,8 @@ import requests
 import time
 import os
 
-# 获取系统变量serverKey
-serverKey = os.environ.get('serverKey')
-
-
 # 获取 COOKIE 环境变量
 cookie_json = os.environ.get('COOKIE')
-
-# 获取 COOKIE 环境变量并解析为 JSON 列表
-
 
 if cookie_json:
     try:
@@ -48,18 +39,6 @@ def Lingqu():
         try:
             web.find_element(By.XPATH, '//*[@id="both_15"]/a/img').click()
             print('日常领取成功')
-            # 用urlencode编码中文内容
-            messagecontent = '日常领取成功'
-            messagecontent = requests.utils.quote(messagecontent)
-            # 通过server酱发送通知
-            url = f"https://sctapi.ftqq.com/{serverKey}.send?title={messagecontent}&desp=messagecontent"
-
-            payload={}
-            headers = {
-            'User-Agent': 'Apifox/1.0.0 (https://apifox.com)'
-            }
-
-            response = requests.request("GET", url, headers=headers, data=payload)
         except:
             print('日常领取失败')
             
@@ -68,57 +47,19 @@ def Lingqu():
             # 尝试点击周常,没有就跳了
             web.find_element(By.XPATH, '//*[@id="both_14"]/a/img').click()
             print('周常领取成功')
-            # 用urlencode编码中文内容
-            messagecontent = '周常领取成功'
-            messagecontent = requests.utils.quote(messagecontent)
-            # 通过server酱发送通知
-            url = f"https://sctapi.ftqq.com/{serverKey}.send?title={messagecontent}&desp=messagecontent"
-
-            payload={}
-            headers = {
-            'User-Agent': 'Apifox/1.0.0 (https://apifox.com)'
-            }
-
-            response = requests.request("GET", url, headers=headers, data=payload)
 
         except:
             pass
 
 
     except:
-        # 用urlencode编码中文内容
-        messagecontent = '日常领取失败'
-        messagecontent = requests.utils.quote(messagecontent)
-
-        # 通过server酱发送通知
-        url = f"https://sctapi.ftqq.com/{serverKey}.send?title={messagecontent}&desp=messagecontent"
-
-        payload={}
-        headers = {
-        'User-Agent': 'Apifox/1.0.0 (https://apifox.com)'
-        }
-
-        response = requests.request("GET", url, headers=headers, data=payload)
-
         print('日常暂未刷新或领取失败')
-
-
-
-
-
-
 
 
 url = 'https://south-plus.net/plugin.php?H_name-tasks.html'
 web.get(url)
 
 time.sleep(1)
-# # 保存cookies为json格式
-# cookies = web.get_cookies()
-# print(cookies)
-# with open('cookies.json', 'w') as f:
-#     json.dump(cookies, f)
-
 
 # 将cookies添加到webdriver中   
 for cookie in cookie_data:
@@ -163,15 +104,8 @@ elif weekly_task_1:
 elif weekly_task_2:
     web.find_element(By.XPATH, '//*[@id="p_14"]/a/img').click()
     Lingqu()
-
-
     
 else:
     print('任务暂未刷新')
-
-
-
-
-
 
 web.quit()
