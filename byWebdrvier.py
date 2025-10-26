@@ -99,9 +99,17 @@ try:
     process_task(15, "日常任务")
     process_task(14, "周常任务")
 
+
 except Exception as e:
     print(f"❌ 登录失败或在任务处理中发生严重错误。请检查 Cookie 或网站结构。")
     print(f"详细错误: {e}")
+    
+    # --- NEW DEBUGGING LINES ---
+    print("\n--- BEGIN FAILURE PAGE SOURCE ---")
+    print(web.page_source)
+    print("--- END FAILURE PAGE SOURCE ---\n")
+    # ---------------------------
+
     screenshot_path = os.path.join(os.getcwd(), 'error_screenshot.png')
     web.save_screenshot(screenshot_path)
     print(f"📷 已保存错误截图至: {screenshot_path}")
