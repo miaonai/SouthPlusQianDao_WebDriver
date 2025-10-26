@@ -30,15 +30,35 @@ jobs:
     - name: Setup ChromeDriver
       uses: nanasess/setup-chromedriver@v2
 
+    # --- 新增步骤 1：安装 Shadowsocks 客户端 ---
+    - name: Install Shadowsocks Client
+      run: sudo apt-get update && sudo apt-get install -y shadowsocks-libev
+
+    # --- 新增步骤 2：在后台启动代理 ---
+    - name: Start Proxy Client
+      env:
+        PROXY_SERVER: ${{ secrets.PROXY_SERVER }}
+        PROXY_PORT: ${{ secrets.PROXY_PORT }}
+        PROXY_PASSWORD: ${{ secrets.PROXY_PASSWORD }} # 你的配置中缺少密码，但 ss 协议一定需要
+        PROXY_CIPHER: ${{ secrets.PROXY_CIPHER }}
+      run: |
+        nohup ss-local \
+          -s "$PROXY_SERVER" \
+          -p "$PROXY_PORT" \
+          -k "$PROXY_PASSWORD" \
+          -m "$PROXY_CIPHER" \
+          -b "0.0.0.0" \
+          -l "1080" > ss-local.log 2>&1 &
+        sleep 2 # 等待代理客户端启动
+
     - name: 总脚本
-      id: run_script # 给这一步一个id，以便后续步骤引用
+      id: run_script
       env:
         COOKIE: ${{ secrets.COOKIE }}
       run: python byWebdrvier.py
 
-    # --- 新增步骤：上传错误截图 ---
     - name: Upload screenshot on failure
-      if: failure() # Use this standard condition
+      if: failure()
       uses: actions/upload-artifact@v4
       with:
         name: error-screenshot
