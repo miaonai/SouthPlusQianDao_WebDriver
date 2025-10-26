@@ -38,7 +38,7 @@ jobs:
 
     # --- 新增步骤：上传错误截图 ---
     - name: Upload screenshot on failure
-      if: steps.run_script.outcome == 'failure' # 只有在上一步失败时才运行
+      if: failure() # Use this standard condition
       uses: actions/upload-artifact@v4
       with:
         name: error-screenshot
