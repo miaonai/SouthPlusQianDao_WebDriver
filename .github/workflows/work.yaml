@@ -31,6 +31,15 @@ jobs:
       uses: nanasess/setup-chromedriver@v2
 
     - name: 总脚本
+      id: run_script # 给这一步一个id，以便后续步骤引用
       env:
         COOKIE: ${{ secrets.COOKIE }}
       run: python byWebdrvier.py
+
+    # --- 新增步骤：上传错误截图 ---
+    - name: Upload screenshot on failure
+      if: steps.run_script.outcome == 'failure' # 只有在上一步失败时才运行
+      uses: actions/upload-artifact@v4
+      with:
+        name: error-screenshot
+        path: error_screenshot.png
